@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <base href=".">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Firebase Project web-cert-project</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script type="module" src="./js/scripts.js"></script>
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
+ 
+    <style media="screen">
+     
+    </style>
+  </head>
+  <body id="body" class="body">
+    <div class="grid-container">
+    <div class="grid-child-menu" id="menu">
+    <img src="img/logo.svg" onclick="window.location.href = 'index.html'" id="logo"> 
+      <div id="Authentication"><p onclick="change()">Authentication</p></div>
+      <div id="authFrame">      
+      <p onclick="loadThis('auth/email.html')"> Email / Password</p>
+      <p onclick="loadThis('auth/phone.html')"> Phone</p>
+      <p onclick="loadThis('auth/google.html')"> Google</p>
+      <p onclick="loadThis('auth/anon.html')"> Anonymous</p>      
+      <p onclick="loadThis('auth/profile.html')"> Profile</p>      
+    </div> 
+    <div id="Authentication"> 
+      <p onclick="loadThis('database/firestore.html')">Firestore</p> 
+    </div>  
+    <div id="Authentication">
+      <p onclick="loadThis('database/rtdb.html')">Realtime database</p>
+    </div>
+    <div id="Authentication">
+      <p onclick="loadThis('storage/storage.html')">Storage</p>
+    </div>
+
+    </div>    
+    <div class="grid-child-main" name="main" id="main">
+      <div class="centered_menu">
+        <p id="menu_p">Welcome to Firebase Basic Certification Application!</p></br>
+        <p id="menu_p">Products used:</p></br>
+        <p id="menu_p">- Hosting</p>
+        <p id="menu_p">- Authentication</p>
+        <p id="menu_p">- Storage</p>
+        <p id="menu_p">- RTDB</p>
+        <p id="menu_p">- Firestore</p>
+
+      </div>
+       </div>
+    </div>    
+  </body>
+  <script>
+
+    function change(){
+      var frame = document.getElementById("authFrame").style;
+      if(frame.height == "0px"){
+        frame.height = "auto";
+        frame.visibility = "visible";
+      }else{
+        frame.height = "0px";
+        frame.visibility = "hidden";
+      }
+      console.log("Clicked!")
+    }
+
+    function loadThis(element){
+      console.log(element);
+      $("#main").load(element);
+
+    }
+    document.getElementById("body").style.height = window.innerHeight;
+    document.getElementById("menu").style.height = window.innerHeight;
+    document.getElementById("authFrame").style.height = "0px";
+    document.getElementById("authFrame").style.visibility = "hidden";
+    
+    </script>
+</html>

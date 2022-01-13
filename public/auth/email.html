@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="./css/style.css">
+
+<div id="google-form">
+<form> 
+<input id='username'><br>
+<label>username</label><br>
+<input id='password' type="password"><br>
+<label>password</label><br>
+</form>
+
+<div id="buttons">
+<button id="popup">Create Account</button>
+<button id="redirect">Login</button>
+</div>
+<div id="result-google"></div>
+</div>
+
+<script type="module">
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+const auth = getAuth();
+
+document.getElementById("popup").addEventListener("click", function() {
+    let email = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            document.getElementById("result-google").innerHTML = "<pre id='limit'>"+JSON.stringify(user,null,2);+"</pre>";
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            document.getElementById("result-google").innerHTML = "<pre id='limit'>"+JSON.stringify(error,null,2);+"</pre>";
+    
+        });
+    });
+
+document.getElementById("redirect").addEventListener("click", function() {
+    let email = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            document.getElementById("result-google").innerHTML = "<pre id='limit'>"+JSON.stringify(user,null,2);+"</pre>";
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            document.getElementById("result-google").innerHTML = "<pre id='limit'>"+JSON.stringify(error,null,2);+"</pre>";
+    
+        });
+    });
+
+
+
+
+
+</script>

@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="./css/style.css">
+<div id="storage"></div>
+
+<script type="module">
+import { getStorage, ref, listAll, getDownloadURL} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js'
+import { getAuth } from'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+const user  = getAuth().currentUser;
+const listRef = ref(getStorage(), user.uid);
+
+if(!user.isAnonymous){
+  
+  listAll(listRef).then((res) => {
+      console.log(res.items);
+      res.items.forEach((itemRef) => {
+        document.getElementById("storage").className = ''; 
+        document.getElementById("storage").innerHTML += "<p>"+ itemRef.name + "</p><br>";
+      });
+
+  }).catch((error) => {
+      console.log("Uh-oh, an error occurred!");
+  });
+}else{
+  document.getElementById("storage").innerHTML = "<p><b> Oh sorry, no storage for Anonymous users </b></p>";
+  document.getElementById("storage").className = 'centered'; 
+}
+
+</script>

@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="./css/style.css">
+
+<div id="anon-buttons">
+   <div><button id="login">LOGIN</button></div>
+   <div><button id="logout">LOGOUT</button></div>   
+</div>
+<div id="anon">
+   <p>State: </p>
+</div>
+
+
+<script type="module">
+   const debug = "Anonymous - Debug -> ";
+   //import {getAuthConst} from './js/scripts.js';
+   import {getAuth, signOut, signInAnonymously } from'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+
+   if(getAuth().currentUser == null){
+      let message = "<p> State: </p>  <p><span id='state'> No user logged in!</span><p>"+ 
+          "<p> uid: </p> <p> none </p>";
+      document.getElementById("anon").innerHTML = message;
+   }else{
+      if(getAuth().currentUser.isAnonymous){
+      let message = "<p> State: </p>  <p><span id='state'> Annonymous user singed in </span><p>"+ 
+          "<p> uid: </p> <p>"+getAuth().currentUser.uid+" </p>"; 
+          document.getElementById("anon").innerHTML = message;
+      }else{
+      let message = "<p> State: </p>  <p><span id='state'> A user singed in </span><p>"+ 
+          "<p> uid: </p> <p>"+getAuth().currentUser.uid+" </p>"; 
+          document.getElementById("anon").innerHTML = message;
+      }
+   document.getElementById('state').style.backgroundColor = "lightgreen";
+
+   }
+
+   document.getElementById("logout").addEventListener("click", function() {signOut(getAuth())
+      .then(() => {
+      console.log(debug, "Logout success");
+      let message = "<p> State: </p>  <p><span id='state'> User loged out! </span><p>"+ 
+          "<p> uid: </p> <p> none </p>"; 
+          document.getElementById("anon").innerHTML = message;
+
+   }).catch((error) => {
+         const errorCode = error.code;
+         const errorMessage = error.message;
+         console.log(debug, "Logout FAILED!");
+
+         let message = "<p> State:</p> <p>"+errorCode+" "+errorMessage+"</p>"; 
+         document.getElementById("anon").innerHTML = message;
+      });
+   });
+
+   document.getElementById("login").addEventListener("click", function() {signInAnonymously(getAuth())
+      .then(() => {
+         console.log(debug, "Login success!");
+         let message = "<p> State: </p>  <p><span id='state'> Annonymous user singed in </span><p>"+ 
+          "<p> uid: </p> <p>"+getAuth().currentUser.uid+" </p>"; 
+         document.getElementById("anon").innerHTML = message;
+         document.getElementById('state').style.backgroundColor = "lightgreen";
+
+      })         
+      .catch((error) => {
+         console.log(debug, "Login FAILED!");
+         const errorCode = error.code;
+         const errorMessage = error.message;
+
+         let message = "<p> State:</p> <p>"+errorCode+" "+errorMessage+"</p>"; 
+         document.getElementById("anon").innerHTML = message;
+      });
+   });
+
+   
+
+
+</script>
+

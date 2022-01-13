@@ -1,0 +1,51 @@
+<div id="box">
+  <input id="input_massage" required>
+  <button id="send" type="button">Send</button>
+</div>
+<div id="mess"></div>
+
+
+<script type="module">
+    import { getDatabase, ref, set, child, get, query, limitToLast } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+    import { getAuth } from'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+    const user  = getAuth().currentUser;
+    const db = getDatabase();
+
+    const dbRef = ref(getDatabase());
+    const posts = query(ref(db, 'posts', limitToLast(2)));
+   // get(child(dbRef, `posts/`)).then((snapshot) => {
+      get(posts).then((snapshot) => {
+        if (snapshot.exists()) {
+
+          console.log(snapshot.val());
+          //snapshot.val.forEach( element => );
+        } else {
+          console.log("No data available");
+        }
+      }).catch((error) => {
+        console.error(error);
+    });
+
+   // let posts = query(ref(db, 'posts', limitToLast(2)));
+   // console.log(posts);
+   // console.log(posts.getvalue);
+   
+
+
+    document.getElementById('send').addEventListener("click", function() {
+
+    set(ref(db, 'posts/' + Date.now()), {
+    email: user.email,
+    user: user.uid,
+    message : document.getElementById('input_massage').value
+      });
+      
+    });
+
+
+
+
+
+    
+
+</script>

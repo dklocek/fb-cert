@@ -1,0 +1,60 @@
+<div id="profile">
+    <div id="image"></div>
+    <div id="data">
+        <p id="user_email"></p><br>
+        <p id="user_displayName"></p><br>
+        <p id="user_providerID"></p><br>
+        <p id="user_uID"></p><br>
+        <p id="user_lastLogin"></p><br><br>
+        <p>You can change your profile photo, just browse it from you computer, and submit!</p>
+
+    </div>
+
+</div>
+
+
+<label for="myfile">Select a file:</label>
+<input type="file" id="myfile" name="myfile"><br><br>
+<button id="Submit">Submit</button>
+
+<script type="module">
+import { getStorage, ref , uploadBytes, getBytes , getDownloadURL} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js'
+const storage = getStorage();
+
+import { getAuth } from'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+const auth = getAuth();
+
+import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js'
+var user = auth.currentUser;
+const storageRef = ref(storage, "/"+user.uid+"/profile.jpg");
+
+if (user && !user.isAnonymous){
+
+getDownloadURL(storageRef).then((result) => {
+        document.getElementById("image").style.backgroundImage = "url("+result+")";
+    }).catch((error) => {
+        document.getElementById("image").style.backgroundImage = "url(auth/default.jpeg)";   
+    });
+
+document.getElementById("Submit").addEventListener("click", function() {
+    let data = document.getElementById("myfile").files[0];
+    uploadBytes(storageRef, data).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        location.reload();
+    });
+    
+});
+
+document.getElementById("user_email").innerHTML = "Email: " + user.providerData[0].email;
+document.getElementById("user_displayName").innerHTML = "Display Name: "+user.providerData[0].displayName;
+document.getElementById("user_providerID").innerHTML = "Provider Id: "+user.providerData[0].providerId;
+document.getElementById("user_uID").innerHTML = "User ID: "+user.providerData[0].uid;
+document.getElementById("user_lastLogin").innerHTML = "user_lastLogin: "+user.metadata.lastSignInTime;
+
+}else{
+    document.getElementById("data").innerHTML = "No user Logged In or user is annonymous";
+}
+
+
+
+</script>

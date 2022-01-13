@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="./css/style.css">
+
+<div id="google-form">
+<form> 
+<input id='username'><br>
+<label>username</label><br>
+<input id='password' type="password"><br>
+<label>password</label><br>
+</form>
+
+<div id="buttons">
+<button id="popup">POP-UP</button>
+<button id="redirect">REDIRECT</button>
+</div>
+<div id="result-google"></div>
+</div>
+
+<script type="module">
+
+import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged } from'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+const auth = getAuth();
+const provider = new GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/plus.login');
+
+document.getElementById("popup").addEventListener("click", function() {
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    const user = result.user;
+    
+  }).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.email;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    document.getElementById("result-google").innerHTML = JSON.stringify(error);
+  });
+});
+ 
+document.getElementById("redirect").addEventListener("click", function() {signInWithRedirect(auth,provider);});
+
+onAuthStateChanged(auth, (user) => {
+    let doc = document.getElementById("result-google");
+
+    if(doc){
+    if (user) {
+      doc.innerHTML = "<pre id='limit'>"+JSON.stringify(user,null,2);+"</pre>";
+    } else {
+      doc.innerHTML = "<pre id='limit'> No User Logged In </pre>";
+    }}
+    });
+
+</script>

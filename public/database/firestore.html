@@ -1,0 +1,27 @@
+<p id="menu_p"> List of your logins, pleas remember that any site refresh can be counted as a login ;)</p>
+<div id=list></div>
+
+<script type="module">
+    import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
+    import { getAuth } from'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+    const user  = getAuth().currentUser;
+    const firestore = getFirestore();
+    let docRef = doc(firestore, "users", user.uid);
+
+    let dataArray = [];
+    let docSnap = await getDoc(docRef);
+    dataArray = docSnap.get("logged");
+    let dataToShow = "<ul>";
+    dataArray.forEach(element => {
+        dataToShow += "<li>" + element + "</li>";
+    });
+
+    dataToShow += "</ul>";
+
+    document.getElementById("list").innerHTML = dataToShow;
+    
+
+
+
+
+</script>

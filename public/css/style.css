@@ -1,0 +1,115 @@
+body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+.grid-child-menu { color: white; height: 100vh; background-color: #111;  overflow-x: hidden;  transition: 0.5s;  padding-top: 60px;
+border-radius: 6px; text-align: center;}
+#menu {text-align: center; padding: 0; margin: 0;height: 100%;}
+.grid-container {display: grid; grid-template-columns: 1fr 5fr; grid-gap: 1px;}
+.grid-child-menu a,p {color: whitesmoke; text-decoration: none; text-transform: uppercase; display: block;}
+.grid-child-main {height: 100%;} 
+#authFrame {display:block; padding: 0px; margin: 0px;}
+.grid-child-menu p:hover {cursor: pointer; color: gold;}
+#Authentication {display: block; background-color: blanchedalmond; color: black; padding: 1px; border-bottom: 1px solid #111;}
+#Authentication p {color: black; font-weight: bold; text-align: center; padding: 1%;} 
+#authFrame p{padding: 1%; margin: 0;}
+#logo:hover {cursor: pointer;}
+#anon p{
+    color: #111;
+    text-align: center;    
+}
+#anon-buttons, #buttons{
+    text-align: center;
+}
+#login, #logout, #popup, #redirect, #create{
+    display: inline-block;
+    width: auto;
+    margin-top: 10px;
+}
+#google-form{
+    text-align: center;
+    margin-top: 2%;
+    max-width: 80%;
+}
+#google-form input{
+    margin-top: 1%;
+}
+#email-form{
+    text-align: center;
+    margin-top: 2%;
+    max-width: 80%;
+}
+#email-form input{
+    margin-top: 1%;
+}
+#result-google, #results-email{
+    display: inline-block;
+    text-align: center;
+    width: 80%;
+    max-width: 900px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+#result-google pre{
+    text-align: left;
+    word-wrap: break-word;
+    width: 100%;
+    white-space: pre-wrap
+}
+#image{
+    height: 100px;
+    width: 100px;
+    background-size: cover;
+}
+#profile p{
+    all: initial;
+}
+
+#storage p{
+    all: initial;
+    color: black;
+}
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -100px;
+    color: black;
+  }
+
+  .centered_menu {
+    all: initial;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    margin-top: -10px;
+    margin-left: -100px;
+    color: black;
+  }
+
+  #menu_p{
+      color: black;
+  }
+
+  #box{
+    width: 30%;
+    background-color: blue;
+    display: block;
+    float: left;
+  }
+
+  #box #send{
+    margin-left: 50%;
+    margin-right: 50%;
+  }
+
+  #box #input_massage{
+    width: 100%;
+    height: 100px;
+  }
+
+  #mess{
+    width: 70%;
+    display: block;
+    float: left;
+    background-color: aquamarine;
+    min-height: 100px;
+  }
