@@ -1,27 +1,64 @@
 <link rel="stylesheet" href="./css/style.css">
 <div id="storage"></div>
 
+<label for="myfile">Select a file:</label>
+<input type="file" id="myfile" name="myfile"><br><br>
+<button id="Submit">Submit</button>
+
 <script type="module">
-import { getStorage, ref, listAll, getDownloadURL} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js'
+import { getStorage, ref, listAll, getDownloadURL, getMetadata, uploadBytes} from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js'
 import { getAuth } from'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
 const user  = getAuth().currentUser;
 const listRef = ref(getStorage(), user.uid);
+const storage = getStorage();
+
 
 if(!user.isAnonymous){
+  goList();
   
-  listAll(listRef).then((res) => {
-      console.log(res.items);
-      res.items.forEach((itemRef) => {
-        document.getElementById("storage").className = ''; 
-        document.getElementById("storage").innerHTML += "<p>"+ itemRef.name + "</p><br>";
-      });
-
-  }).catch((error) => {
-      console.log("Uh-oh, an error occurred!");
-  });
 }else{
   document.getElementById("storage").innerHTML = "<p><b> Oh sorry, no storage for Anonymous users </b></p>";
   document.getElementById("storage").className = 'centered'; 
 }
+
+document.getElementById("Submit").addEventListener("click", function() {
+    let file = document.getElementById("myfile").files[0];
+    let uploadRef = ref(storage, '/' + user.uid + '/' + file.name)
+    let data = document.getElementById("myfile").files[0];
+    uploadBytes(uploadRef, file).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+
+        goList();
+    });
+    
+});
+
+
+
+
+
+function goList(){
+  listAll(listRef).then((res) => {
+    document.getElementById("storage").innerHTML = '';
+      console.log(res.items);
+      res.items.forEach((itemRef) => {
+         
+
+          getDownloadURL(itemRef).then((url) => {
+          document.getElementById("storage").className = ''; 
+          
+          document.getElementById("storage").innerHTML += "<a href=" + url +">" + itemRef.name+ "</a><br>";
+         });
+       
+       // document.getElementById("storage").className = ''; 
+       // document.getElementById("storage").innerHTML += "<p>"+ itemRef.name + "</p><br>";
+      });
+
+  }).catch((error) => {
+      console.log(error);
+  });
+}
+
+
 
 </script>
