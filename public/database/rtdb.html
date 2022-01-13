@@ -9,9 +9,15 @@
 
 
 <script type="module">
+    
     import { getDatabase, ref, set, child, get, query, limitToLast, onValue, off } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
     import { getAuth } from'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
     const user  = getAuth().currentUser;
+    if(user.isAnonymous){
+      document.getElementById('send').disabled = true;
+      document.getElementById('input_massage').value = "Sorry, Anonymous users cannot post!";
+    }
+
     const db = getDatabase();
 
     //const dbRef = ref(getDatabase());
@@ -31,21 +37,30 @@
     });
 
     document.getElementById('send').addEventListener("click", function() {
-    set(ref(db, 'posts/' + Date.now()), {
-    email: user.email,
-    user: user.uid,
-    message : document.getElementById('input_massage').value
+        
+      set(ref(db, 'posts/' + Date.now()), {
+        email: user.email,
+        user: user.uid,
+        message : document.getElementById('input_massage').value 
       });
+
       document.getElementById('input_massage').value = '';
-    });
-    const postsRef = ref(db, 'posts');
-    onValue(posts, (snapshot) => {
-      document.getElementById('mess').innerHTML ='';
-      go(snapshot);
+
     });
 
-    window.onbeforeunload = function() {
-      off();
+        
+        const postsRef = ref(db, 'posts');
+        onValue(posts, (snapshot) => {
+          document.getElementById('mess').innerHTML ='';
+          go(snapshot);
+        });
+        
+
+      window.onbeforeunload = function() {
+        off();
+      
+
+      
     }
         
     function go(snapshot){
