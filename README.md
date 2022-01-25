@@ -1,1 +1,1 @@
-﻿# firebase-certificate.
+﻿# firebase-certificate
