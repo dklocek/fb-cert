@@ -8,6 +8,7 @@ pipeline {
         stage('Hello') {
             steps {
                sh 'echo ${TOKEN}'
+             
             }
         }
     }
